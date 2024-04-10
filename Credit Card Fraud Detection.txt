@@ -1,0 +1,93 @@
+========================================================
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+=======================================================
+df = pd.read_csv("/content/creditcard.csv (1).zip")
+df.head()
+=====================================================
+df.info()
+==============================================
+import missingno as msno
+msno.matrix(df)
+plt.figure(figsize = (15,9))
+plt.show()
+===================================================
+# Columns having missing values
+missing_columns = [col for col in df.columns if df[col].isnull().sum() > 0]
+missing_columns
+======================================================
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import  RandomForestClassifier
+from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score
+from imblearn.over_sampling import RandomOverSampler
+%matplotlib inline
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+=========================================================
+df.shape
+=======================================================
+df.info()
+======================================================
+df.describe()
+=====================================================
+df.isna().sum()
+========================================================
+df.isna().sum().sum()
+=======================================================
+df.drop_duplicates(inplace=True)
+==================================================
+df.shape
+=======================================================
+fraudlent_transaction = df[df['Class'] == 1]
+legimate_transaction = df[df['Class'] == 0]
+=========================================================
+fraudlent_transaction.shape
+===========================================================
+plt.figure(figsize=(10,6))
+sns.countplot(data=df,x='Class')
+plt.title(' of fraudlent against legimate transactions')
+plt.Distributionxticks((1,0),labels=['fraudlent_transaction','legimate_transaction'])
+plt.show()
+=================================================================
+sns.histplot(data=df,x='Time',kde=True)
+plt.title('Distribuion of time')
+plt.show()
+===================================================
+plt.figure(figsize=(10,5))
+sns.heatmap(data=df.corr(),annot=False,linewidths=0.5)
+
+plt.show()
+============================================================
+X = df.drop(columns='Class')
+y = df['Class']
+
+ros = RandomOverSampler(random_state=42)
+X_resampled, y_resampled = ros.fit_resample(X, y)
+================================================================
+logreg = LogisticRegression()
+logreg.fit(X_train,y_train)
+==========================================================
+print(f"Accuaracy Score: {accuracy_score(y_test,y_pred_logreg)}")
+print(f"Recall Score: {recall_score(y_test,y_pred_logreg)}")
+print(f"Precission Score: {precision_score(y_test,y_pred_logreg)}")
+print(f"F1 Score: {f1_score(y_test,y_pred_logreg)}")
+================================================================
+rf_classifier = RandomForestClassifier()
+rf_classifier.fit(X_train,yain)_tr
+========================================================
+print(f"Accuaracy Score: {accuracy_score(y_test,y_pred_rf_classifier)}")
+print(f"Recall Score: {recall_score(y_test,y_pred_rf_classifier)}")
+print(f"Precission Score: {precision_score(y_test,y_pred_rf_classifier)}")
+print(f"F1 Score: {f1_score(y_test,y_pred_classifier)rf_}")
+==========================================================
+
