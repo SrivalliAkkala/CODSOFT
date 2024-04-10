@@ -1,0 +1,91 @@
+===========================================================
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import  LinearRegression
+from sklearn.metrics import mean_squared_error,mean_absolute_error,accuracy_score,r2_score
+%matplotlib inline
+==========================================================
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+============================================================
+df = pd.read_csv('/content/IMDb Movies India.csv.zip', encoding='ISO-8859-1')
+=======================================================
+df.head()
+===========================================================
+df.shape
+======================================================
+df.columns
+===============================================================
+df.info()
+==============================================================
+df.isnull().sum()
+============================================================
+df.describe()
+======================================================
+df.dropna(inplace=True)
+=======================================================
+df.isna().sum()
+==================================================
+df.head()
+=========================================================
+df.info()
+===============================================
+df.head()
+========================================================
+sns.histplot(data=df,x='Rating',kde=True)
+plt.title('Distribution of ratings')
+plt.show()
+========================================================
+sns.histplot(data=df,x='Year',kde=True)
+plt.title('Distribution of years')
+plt.show()
+====================================================
+sns.lineplot(data=df.head(15),x='Year',y='Duration')
+plt.title('The distibution of duration over years')
+plt.show()
+=======================================================
+movies_genre = df['Genre'].str.split(', ',expand=True).stack().value_counts()
+labels = movies_genre.keys()
+count = movies_genre.values
+plt.figure(figsize=(10,6))
+sns.barplot(x=labels,y=count)
+plt.xticks(rotation=90)
+plt.title('The frequency of each genre in the data')
+plt.xlabel('Genre')
+plt.ylabel('Counts')
+plt.show()
+============================================================
+encoder = LabelEncoder()
+df['Actor 1'] = encoder.fit_transform(df['Actor 1'])
+df['Actor 2'] = encoder.fit_transform(df['Actor 2'])
+df['Actor 3'] = encoder.fit_transform(df['Actor 3'])
+df['Genre'] = encoder.fit_transform(df['Genre'])
+df['Director'] = encoder.fit_transform(df['Director'])
+df.head()
+=============================================================
+df2 = df.drop('Name',axis=1)
+========================================================================
+X = df2.drop('Rating',axis=1)
+y= df2['Rating']
+=========================================================================
+#initialoze the model
+model = LinearRegression()
+#Fiting the training data
+model.fit(X_train,y_train)
+==============================================================================
+#predict values
+y_pred = model.predict(X_test)
+y_pred
+================================================
+#calculating some metrics
+print(f"Mean Absolute Error : {mean_absolute_error(y_test,y_pred)}")
+print(f"Mean Squared Error : {mean_squared_error(y_test,y_pred)}")
+================================================================================
+#calculating the r2 score
+print(f"R2 score : {r2_score(y_test,y_pred)}")
+=================================================================================
